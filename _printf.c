@@ -39,9 +39,10 @@ void process_tag_on(char c, tag_t *tag, va_list ap, int *count)
 		default:
 		{
 			if (DEBUG)
-				printf("%d: Unhandled (tag.on=1, format[i]=%c)\n", __LINE__, c);
+				printf("[line %d]: Unhandled (tag.on=1, format[i]=%c(ascii:%d))\n", __LINE__, c, c);
 			
 			exit(1);
+			break;
 		}
 	}
 }
@@ -78,6 +79,8 @@ void process_tag_off(char c, tag_t *tag, int *count)
 			
 			if  (DEBUG)
 				printf(" [count: %d]\n", *count);
+
+			break;
 		}
 	}
 }

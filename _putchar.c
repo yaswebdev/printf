@@ -10,7 +10,9 @@
  */
 int _putchar(char c)
 {
-	/*return (write(1, &c, 1));*/
+	return (write(1, &c, 1));
+
+	/*
 	ssize_t result;
 
 	result = (write(1, &c, 1));
@@ -18,4 +20,5 @@ int _putchar(char c)
 	if (result)
 		fflush(stdout);
 	return (result);
+	*/
 }
