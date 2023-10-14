@@ -16,6 +16,9 @@ int _putchar(char c)
 
 	result = (write(1, &c, 1));
 
+	if (result == -1)
+		exit(1);
+
 	fflush(stdout);
 
 	/*printf("\nprinted: %c (%d)\n", c, c);*/
