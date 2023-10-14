@@ -20,7 +20,7 @@ int print_char_plain(char c)
 	result =_putchar(c);
 	
 	if (DEBUG)
-		printf(" [count: %d]\n", *result);
+		printf(" [count: %d]\n", result);
 
 	return (result);
 }
@@ -53,7 +53,7 @@ int print_char(va_list ap)
  * print_str - prints a string
  * @ap: _printf's variadic argument pointer holding string to print 
  */
-void print_str(va_list ap)
+int print_str(va_list ap)
 {
 	char *str = va_arg(ap, char *);
 	int i;

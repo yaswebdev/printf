@@ -27,7 +27,7 @@ int process_tag_on(char c, tag_t *tag, va_list ap)
 		case 's':
 		{
 			tag->spec = 's';
-			count = print_str(ap, count);
+			count = print_str(ap);
 			tag->on = 0;
 			tag->spec = '\0';
 			break;
@@ -36,7 +36,7 @@ int process_tag_on(char c, tag_t *tag, va_list ap)
 		case '%':
 		{
 			tag->spec = 'c';
-			count = print_char_plain('%', count);
+			count = print_char_plain('%');
 			tag->on = 0;
 			tag->spec = '\0';
 			break;
@@ -92,7 +92,7 @@ int process_tag_off(char c, tag_t *tag)
 			count = _putchar(c);
 		
 			if  (DEBUG)
-				printf(" [count: %d]\n", *count);
+				printf(" [count: %d]\n", count);
 			
 			tag->spec = '\0';
 
@@ -138,11 +138,11 @@ int _printf(const char *format, ...)
 
 		if (tag.on)
 		{
-			i_count = process_tag_on(format[i], &tag, ap, &count);
+			i_count = process_tag_on(format[i], &tag, ap);
 		}
 		else
 		{
-			i_count = process_tag_off(format[i], &tag, &count);
+			i_count = process_tag_off(format[i], &tag);
 		}
 
 		if (i_count == -1)
