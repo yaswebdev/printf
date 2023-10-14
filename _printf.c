@@ -8,7 +8,7 @@
  * @ap: argument pointer to _printf's variadic arguments
  * @count: pointer to printed chars count
  */
-void process_tag_on(char c, tag_t *tag, va_list ap, unsigned int *count)
+void process_tag_on(char c, tag_t *tag, va_list ap, int *count)
 {
 	switch (c)
 	{
@@ -38,10 +38,9 @@ void process_tag_on(char c, tag_t *tag, va_list ap, unsigned int *count)
 
 		default:
 		{
-			/*
-			*if (DEBUG)
-			*	printf("%d: Unhandled (tag.on=1, format[i]=%c)\n", __LINE__, c);
-			*/
+			if (DEBUG)
+				printf("%d: Unhandled (tag.on=1, format[i]=%c)\n", __LINE__, c);
+			
 			exit(1);
 		}
 	}
@@ -53,35 +52,32 @@ void process_tag_on(char c, tag_t *tag, va_list ap, unsigned int *count)
  * @tag: pointer to tag information holding struct
  * @count: pointer to printed chars count
  */
-void process_tag_off(char c, tag_t *tag, unsigned int *count)
+void process_tag_off(char c, tag_t *tag, int *count)
 {
 	switch (c)
 	{
 		case '%':
 		{
-			/*
-			*if (DEBUG)
-			*	printf("%%: \n");
-			*/
+			if (DEBUG)
+				printf("%%: \n");
+			
 			tag->on = 1;
 			break;
 		}
 
 		default:
 		{
-			/*
-			*if (DEBUG)
-			*{
-			*	printf("default: ");
-			*	fflush(stdout);
-			*}
-			*/
+			if (DEBUG)
+			{
+				printf("default: ");
+				fflush(stdout);
+			}
+			
 			_putchar(c);
 			(*count)++;
-			/*
-			*if  (DEBUG)
-			*	printf(" [count: %d]\n", *count);
-			*/
+			
+			if  (DEBUG)
+				printf(" [count: %d]\n", *count);
 		}
 	}
 }
@@ -95,9 +91,9 @@ void process_tag_off(char c, tag_t *tag, unsigned int *count)
  */
 int _printf(const char *format, ...)
 {
-	unsigned int count = 0;
+	int count = 0;
 	va_list ap;
-	unsigned int i;
+	int i;
 	tag_t tag = {
 		0,
 		'\0'
@@ -105,8 +101,20 @@ int _printf(const char *format, ...)
 
 	va_start(ap, format);
 
+	if (format == NULL)
+	{
+		printf("format == NULL");
+		exit(1);
+	}
+
+	i = 0;
 	while (format[i] != '\0')
 	{
+		if (DEBUG)
+		{
+			printf("Processing: %c...\n\t", format[i]);
+		}
+
 		if (tag.on)
 		{
 			process_tag_on(format[i], &tag, ap, &count);
