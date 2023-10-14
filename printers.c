@@ -17,8 +17,8 @@ int print_char_plain(char c)
 		fflush(stdout);
 	}
 
-	result =_putchar(c);
-	
+	result = _putchar(c);
+
 	if (DEBUG)
 		printf(" [count: %d]\n", result);
 
@@ -41,7 +41,7 @@ int print_char(va_list ap)
 		fflush(stdout);
 	}
 
-	result =_putchar(va_arg(ap, int));
+	result = _putchar(va_arg(ap, int));
 
 	if (DEBUG)
 		printf(" [count: %d]\n", result);
@@ -51,7 +51,9 @@ int print_char(va_list ap)
 
 /**
  * print_str - prints a string
- * @ap: _printf's variadic argument pointer holding string to print 
+ * @ap: _printf's variadic argument pointer holding string to print
+ *
+ * Return: number of characters printed, or -1 on error
  */
 int print_str(va_list ap)
 {
@@ -67,11 +69,11 @@ int print_str(va_list ap)
 
 	for (i = 0; str[i] != '\0'; i++)
 	{
-		i_result =_putchar(str[i]);
+		i_result = _putchar(str[i]);
 		if (i_result == -1)
 			return (-1);
-		else
-			result += i_result;
+
+		result += i_result;
 	}
 
 	if (DEBUG)

@@ -19,29 +19,23 @@ int process_tag_on(char c, tag_t *tag, va_list ap)
 		{
 			tag->spec = 'c';
 			count = print_char(ap);
-			tag->on = 0;
-			tag->spec = '\0';
+			tag->on = 0, tag->spec = '\0';
 			break;
 		}
-
 		case 's':
 		{
 			tag->spec = 's';
 			count = print_str(ap);
-			tag->on = 0;
-			tag->spec = '\0';
+			tag->on = 0, tag->spec = '\0';
 			break;
 		}
-
 		case '%':
 		{
 			tag->spec = 'c';
 			count = print_char_plain('%');
-			tag->on = 0;
-			tag->spec = '\0';
+			tag->on = 0, tag->spec = '\0';
 			break;
 		}
-
 		default:
 		{
 			if (DEBUG)
@@ -49,7 +43,6 @@ int process_tag_on(char c, tag_t *tag, va_list ap)
 				printf("[line %d]: Unhandled ", __LINE__);
 				printf("(tag.on=1, fmt[i]=%c(%d))\n", c, c);
 			}
-
 			count = -1;
 			break;
 		}
@@ -90,10 +83,10 @@ int process_tag_off(char c, tag_t *tag)
 			}
 
 			count = _putchar(c);
-		
+
 			if  (DEBUG)
 				printf(" [count: %d]\n", count);
-			
+
 			tag->spec = '\0';
 
 			break;
@@ -132,24 +125,16 @@ int _printf(const char *format, ...)
 	while (format[i] != '\0')
 	{
 		if (DEBUG)
-		{
 			printf("Processing: %c...\n\t", format[i]);
-		}
 
 		if (tag.on)
-		{
 			i_count = process_tag_on(format[i], &tag, ap);
-		}
 		else
-		{
 			i_count = process_tag_off(format[i], &tag);
-		}
 
 		if (i_count == -1)
 			return (-1);
-		else
-			count += i_count;
-
+		count += i_count;
 		i++;
 	}
 
