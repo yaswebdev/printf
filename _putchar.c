@@ -1,5 +1,6 @@
 #include <unistd.h>
 #include <stdio.h>
+#include "main.h"
 
 /**
  * _putchar - writes the character c to stdout
@@ -10,15 +11,18 @@
  */
 int _putchar(char c)
 {
-	return (write(1, &c, 1));
+	/*return (write(1, &c, 1));*/
 
-	/*
-	*ssize_t result;
-	*
-	*result = (write(1, &c, 1));
-	*
-	*if (result)
-	*	fflush(stdout);
-	*return (result);
-	*/
+	ssize_t result;
+
+	result = (write(1, &c, 1));
+
+	if (result == -1)
+		exit(1);
+
+	fflush(stdout);
+
+	/*printf("\nprinted: %c (%d)\n", c, c);*/
+
+	return (result);
 }
