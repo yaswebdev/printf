@@ -17,6 +17,7 @@ void process_tag_on(char c, tag_t *tag, va_list ap, int *count)
 			tag->spec = 'c';
 			print_char(ap, count);
 			tag->on = 0;
+			tag->spec = '\0';
 			break;
 		}
 
@@ -25,6 +26,7 @@ void process_tag_on(char c, tag_t *tag, va_list ap, int *count)
 			tag->spec = 's';
 			print_str(ap, count);
 			tag->on = 0;
+			tag->spec = '\0';
 			break;
 		}
 
@@ -33,6 +35,7 @@ void process_tag_on(char c, tag_t *tag, va_list ap, int *count)
 			tag->spec = 'c';
 			print_char_plain('%', count);
 			tag->on = 0;
+			tag->spec = '\0';
 			break;
 		}
 
@@ -65,6 +68,7 @@ void process_tag_off(char c, tag_t *tag, int *count)
 				printf("%%: \n");
 
 			tag->on = 1;
+			tag->spec = '\0';
 			break;
 		}
 
@@ -81,6 +85,7 @@ void process_tag_off(char c, tag_t *tag, int *count)
 
 			if  (DEBUG)
 				printf(" [count: %d]\n", *count);
+			tag->spec = '\0';
 
 			break;
 		}
