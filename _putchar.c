@@ -13,12 +13,12 @@ int _putchar(char c)
 	return (write(1, &c, 1));
 
 	/*
-	ssize_t result;
-
-	result = (write(1, &c, 1));
-
-	if (result)
-		fflush(stdout);
-	return (result);
+	*ssize_t result;
+	*
+	*result = (write(1, &c, 1));
+	*
+	*if (result)
+	*	fflush(stdout);
+	*return (result);
 	*/
 }
