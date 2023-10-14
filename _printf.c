@@ -6,16 +6,19 @@
  * @c: char to process
  * @tag: pointer to tag information holding struct
  * @ap: argument pointer to _printf's variadic arguments
- * @count: pointer to printed chars count
+ *
+ * Return: number of characters printed, or -1 on error
  */
-void process_tag_on(char c, tag_t *tag, va_list ap, int *count)
+int process_tag_on(char c, tag_t *tag, va_list ap)
 {
+	int count = 0;
+
 	switch (c)
 	{
 		case 'c':
 		{
 			tag->spec = 'c';
-			print_char(ap, count);
+			count = print_char(ap);
 			tag->on = 0;
 			tag->spec = '\0';
 			break;
@@ -24,7 +27,7 @@ void process_tag_on(char c, tag_t *tag, va_list ap, int *count)
 		case 's':
 		{
 			tag->spec = 's';
-			print_str(ap, count);
+			count = print_str(ap, count);
 			tag->on = 0;
 			tag->spec = '\0';
 			break;
@@ -33,7 +36,7 @@ void process_tag_on(char c, tag_t *tag, va_list ap, int *count)
 		case '%':
 		{
 			tag->spec = 'c';
-			print_char_plain('%', count);
+			count = print_char_plain('%', count);
 			tag->on = 0;
 			tag->spec = '\0';
 			break;
@@ -46,20 +49,26 @@ void process_tag_on(char c, tag_t *tag, va_list ap, int *count)
 				printf("[line %d]: Unhandled ", __LINE__);
 				printf("(tag.on=1, fmt[i]=%c(%d))\n", c, c);
 			}
-			exit(1);
+
+			count = -1;
 			break;
 		}
 	}
+
+	return (count);
 }
 
 /**
  * process_tag_off - processes a char, while a tag is not started
  * @c: char to process
  * @tag: pointer to tag information holding struct
- * @count: pointer to printed chars count
+ *
+ * Return: number of characters printed, or -1 on error
  */
-void process_tag_off(char c, tag_t *tag, int *count)
+int process_tag_off(char c, tag_t *tag)
 {
+	int count = 0;
+
 	switch (c)
 	{
 		case '%':
@@ -80,16 +89,18 @@ void process_tag_off(char c, tag_t *tag, int *count)
 				fflush(stdout);
 			}
 
-			_putchar(c);
-			(*count)++;
-
+			count = _putchar(c);
+		
 			if  (DEBUG)
 				printf(" [count: %d]\n", *count);
+			
 			tag->spec = '\0';
 
 			break;
 		}
 	}
+
+	return (count);
 }
 
 /**
@@ -97,11 +108,11 @@ void process_tag_off(char c, tag_t *tag, int *count)
  * @format: string holding what to print and format tags for any provided
  * variadic arguments
  *
- * Return: printed chars count, excluding '\0'
+ * Return: printed chars count (excluding '\0') or -1 on error
  */
 int _printf(const char *format, ...)
 {
-	int count = 0;
+	int count = 0, i_count;
 	va_list ap;
 	int i;
 	tag_t tag = {
@@ -127,12 +138,17 @@ int _printf(const char *format, ...)
 
 		if (tag.on)
 		{
-			process_tag_on(format[i], &tag, ap, &count);
+			i_count = process_tag_on(format[i], &tag, ap, &count);
 		}
 		else
 		{
-			process_tag_off(format[i], &tag, &count);
+			i_count = process_tag_off(format[i], &tag, &count);
 		}
+
+		if (i_count == -1)
+			return (-1);
+		else
+			count += i_count;
 
 		i++;
 	}

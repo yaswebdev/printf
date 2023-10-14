@@ -21,9 +21,9 @@ struct Tag
 
 typedef struct Tag tag_t;
 
-void print_char_plain(char c, int *count);
-void print_char(va_list ap, int *count);
-void print_str(va_list ap, int *count);
+void print_char_plain(char c);
+void print_char(va_list ap);
+void print_str(va_list ap);
 
 
 #ifndef DEBUG
