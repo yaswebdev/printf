@@ -50,8 +50,7 @@ int process_tag_on(char c, tag_t *tag, va_list ap)
 
 		case 'd':
 		case 'i':
-			tag->spec = 'd';
-			b_written = 0;
+			b_written = -1;
 			reset_tag(tag);
 			break;
 
