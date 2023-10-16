@@ -131,5 +131,8 @@ int _printf(const char *format, ...)
 		b_written += b_written_curr;
 	}
 
+	if (tag.on)
+		return (-1);
+
 	return (b_written);
 }
