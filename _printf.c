@@ -49,8 +49,14 @@ int process_tag_on(char c, tag_t *tag, va_list ap)
 			break;
 		}
 
-		
-		case 'd':
+		case ' ':
+		{
+			b_written = -1;
+			reset_tag(tag);
+			break;
+		}
+
+		/*case 'd':
 		case 'i':
 		case 'e':
 		case 'E':
@@ -63,24 +69,14 @@ int process_tag_on(char c, tag_t *tag, va_list ap)
 		case 'X':
 		case 'p':
 		case 'n':
+		*/
+		
+		default:
 		{
 			_putchar('%');
 			_putchar(c);
 			b_written = 2;
 			va_arg(ap, int);
-				
-			/*b_written = 0;
-			b_written = _putchar(c);*/
-			reset_tag(tag);
-			break;
-		}
-		
-		default:
-		{
-			b_written = -1;
-			/*_putchar("\%");
-			_putchar(c);
-			b_written = 2;*/
 			reset_tag(tag);
 			break;
 		}

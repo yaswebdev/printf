@@ -335,6 +335,7 @@ int main(void)
 			/*printf("printf:\n----------\n|%s|\n----------\n\n", output[i]);*/
 			printf("printf:\n");
 			dbgprintout(output[i]);
+			printf("_printf:\n");
 			/*printf("_printf:\n_output[i]=%s\n", _output[i]);*/
 			dbgprintout(_output[i]);
 			printf("" RESET_TEXT);
