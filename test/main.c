@@ -1,6 +1,6 @@
 #include "../main.h"
 
-#define N_TESTS (17)
+#define N_TESTS (18)
 
 void dbgprintout(char *s)
 {
@@ -240,12 +240,12 @@ int main(void)
 	/**/
 
 	/**/
-	printf("printf %%:\n");
+	/*printf("printf %%:\n");
 	printf("%");
 	printf("printf %% over\n");
 	printf("_printf %%:\n");
 	_printf("%");
-	printf("_printf %% over\n");
+	printf("_printf %% over\n");*/
 	i++;
 	input[i] = "printf(\"%\")";
 
@@ -257,6 +257,20 @@ int main(void)
 	_count[i] = _printf("%");
 	_output[i] = end_capture();
 	/**/
+
+	/**/
+	i++;
+	input[i] = "printf(\"% \")";
+
+	start_capture();
+	count[i] = printf("% ");
+	output[i] = end_capture();
+
+	start_capture();
+	_count[i] = _printf("% ");
+	_output[i] = end_capture();
+	/**/
+
 
 
 	/**/
@@ -321,7 +335,7 @@ int main(void)
 			/*printf("printf:\n----------\n|%s|\n----------\n\n", output[i]);*/
 			printf("printf:\n");
 			dbgprintout(output[i]);
-			printf("_printf:\n");
+			/*printf("_printf:\n_output[i]=%s\n", _output[i]);*/
 			dbgprintout(_output[i]);
 			printf("" RESET_TEXT);
 		}

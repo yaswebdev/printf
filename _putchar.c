@@ -13,11 +13,11 @@ int _putchar(char c)
 {
 	int bwritten = (write(1, &c, 1));
 
-	if (bwritten == -1)
+	/*if (bwritten == -1)
 	{
 		printf(RED_TEXT "!!! ERROR ||| Unhandled (bwritten == -1)");
 		exit(1);
-	}
+	}*/
 
 	fflush(stdout);
 
