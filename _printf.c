@@ -50,7 +50,8 @@ int process_tag_on(char c, tag_t *tag, va_list ap)
 
 		default:
 		{
-			b_written = -1;
+			/*b_written = -1;*/
+			b_written = 0;
 			reset_tag(tag);
 			break;
 		}
