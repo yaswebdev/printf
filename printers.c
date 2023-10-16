@@ -45,9 +45,9 @@ int ptag_str(va_list ap)
 
 	for (i = 0; arg[i] != '\0'; i++)
 	{
-		printf("str char: |");
+		/*printf("str char: |");*/
 		count += _putchar(arg[i]);
-		printf("|\n");
+		/*printf("|\n");*/
 	}
 
 	return (count);
