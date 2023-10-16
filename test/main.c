@@ -301,14 +301,14 @@ int main(void)
 
 	/**/
 	i++;
-	input[i] = "printf(\"%d\", 99)";
+	input[i] = "printf(\"%d\", 90809)";
 
 	start_capture();
-	count[i] = printf("%d", 99);
+	count[i] = printf("%d", 90809);
 	output[i] = end_capture();
 
 	start_capture();
-	_count[i] = _printf("%d", 99);
+	_count[i] = _printf("%d", 90809);
 	_output[i] = end_capture();
 	/**/
 

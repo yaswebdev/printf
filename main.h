@@ -8,14 +8,6 @@
 #include <errno.h>
 #include <string.h>
 
-int _putchar(char c);
-int _printf(const char *format, ...);
-void start_capture(void);
-char *end_capture(void);
-
-int ptag_char(va_list ap);
-int ptag_str(va_list ap);
-
 /**
  * struct Tag - Information about the format tag
  * @on: whether or not currently processing a format tag
@@ -26,8 +18,20 @@ struct Tag
 	int on;
 	char spec;
 };
-
 typedef struct Tag tag_t;
+
+int _putchar(char c);
+int _printf(const char *format, ...);
+void start_capture(void);
+char *end_capture(void);
+
+int ptag_char(va_list ap);
+int ptag_str(va_list ap);
+
+int process_percent(tag_t *tag);
+int process_c(tag_t *tag, va_list ap);
+int process_s(tag_t *tag, va_list ap);
+int process_d(tag_t *tag, va_list ap);
 
 #define RED_TEXT   "\x1B[31m"
 #define RESET_TEXT "\x1B[0m"
