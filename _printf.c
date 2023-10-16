@@ -25,46 +25,36 @@ int process_tag_on(char c, tag_t *tag, va_list ap)
 	switch (c)
 	{
 		case '%':
-		{
 			tag->spec = '%';
 			b_written = _putchar('%');
 			reset_tag(tag);
 			break;
-		}
 
 		case 'c':
 		case 'C':
-		{
 			tag->spec = 'c';
 			b_written = ptag_char(ap);
 			reset_tag(tag);
 			break;
-		}
 
 		case 's':
-		{
 			tag->spec = 's';
 			b_written = ptag_str(ap);
 			reset_tag(tag);
 			break;
-		}
 
 		case ' ':
-		{
 			b_written = -1;
 			reset_tag(tag);
 			break;
-		}
 
 		default:
-		{
 			_putchar('%');
 			_putchar(c);
 			b_written = 2;
 			va_arg(ap, int);
 			reset_tag(tag);
 			break;
-		}
 	}
 
 	return (b_written);
@@ -132,13 +122,9 @@ int _printf(const char *format, ...)
 	for (i = 0; format[i] != '\0'; i++)
 	{
 		if (tag.on)
-		{
 			b_written_curr = process_tag_on(format[i], &tag, ap);
-		}
 		else
-		{
 			b_written_curr = process_tag_off(format[i], &tag);
-		}
 
 		if (b_written_curr == -1)
 		{
@@ -149,10 +135,7 @@ int _printf(const char *format, ...)
 	}
 
 	if (tag.on)
-	{
-		va_end(ap);
-		return (-1);
-	}
+		b_written = -1;
 
 
 	va_end(ap);
