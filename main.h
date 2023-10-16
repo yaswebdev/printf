@@ -1,12 +1,20 @@
 #ifndef MAIN_H
+
 #define MAIN_H
 
+#include <stdio.h>
 #include <stdarg.h>
 #include <stdlib.h>
+#include <errno.h>
+#include <string.h>
 
 int _putchar(char c);
-
 int _printf(const char *format, ...);
+void start_capture(void);
+char *end_capture(void);
+
+int ptag_char(va_list ap);
+int ptag_str(va_list ap);
 
 /**
  * struct Tag - Information about the format tag
@@ -15,20 +23,13 @@ int _printf(const char *format, ...);
  */
 struct Tag
 {
-	unsigned int on;
+	int on;
 	char spec;
 };
 
 typedef struct Tag tag_t;
 
-int print_char_plain(char c);
-int print_char(va_list ap);
-int print_str(va_list ap);
-
-
-#ifndef DEBUG
-#define DEBUG 0
-#endif /* DEBUG */
-
+#define RED_TEXT   "\x1B[31m"
+#define RESET_TEXT "\x1B[0m"
 
 #endif /* MAIN_H */

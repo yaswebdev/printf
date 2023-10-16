@@ -1,5 +1,5 @@
 #include <unistd.h>
-#include <stdio.h>
+
 #include "main.h"
 
 /**
@@ -11,18 +11,15 @@
  */
 int _putchar(char c)
 {
-	/*return (write(1, &c, 1));*/
+	int bwritten = (write(1, &c, 1));
 
-	ssize_t result;
-
-	result = (write(1, &c, 1));
-
-	if (result == -1)
+	if (bwritten == -1)
+	{
+		printf(RED_TEXT "!!! ERROR ||| Unhandled (bwritten == -1)");
 		exit(1);
+	}
 
 	fflush(stdout);
 
-	/*printf("\nprinted: %c (%d)\n", c, c);*/
-
-	return (result);
+	return (bwritten);
 }

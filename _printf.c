@@ -1,56 +1,62 @@
 #include "main.h"
-#include <stdio.h>
 
 /**
- * process_tag_on - processes a char, while a tag is started
+ * reset_tag - Resets the tag struct
+ * @tag: pointer to tag struct
+ */
+void reset_tag(tag_t *tag)
+{
+	tag->on = 0;
+	tag->spec = '\0';
+}
+
+/**
+ * process_tag_on - processes the next format char, while a tag is started
  * @c: char to process
  * @tag: pointer to tag information holding struct
  * @ap: argument pointer to _printf's variadic arguments
  *
- * Return: number of characters printed, or -1 on error
+ * Return: number of characters printed
  */
 int process_tag_on(char c, tag_t *tag, va_list ap)
 {
-	int count = 0;
+	int b_written;
 
 	switch (c)
 	{
+		case '%':
+		{
+			tag->spec = '%';
+			b_written = _putchar('%');
+			reset_tag(tag);
+			break;
+		}
+
 		case 'c':
 		{
 			tag->spec = 'c';
-			count = print_char(ap);
-			tag->on = 0, tag->spec = '\0';
+			b_written = ptag_char(ap);
+			reset_tag(tag);
 			break;
 		}
+
 		case 's':
 		{
 			tag->spec = 's';
-			count = print_str(ap);
-			tag->on = 0, tag->spec = '\0';
+			b_written = ptag_str(ap);
+			reset_tag(tag);
 			break;
 		}
-		case '%':
-		{
-			tag->spec = 'c';
-			count = print_char_plain('%');
-			tag->on = 0, tag->spec = '\0';
-			break;
-		}
+
 		default:
 		{
-			/*
-			*if (DEBUG)
-			*{
-			*	printf("[line %d]: Unhandled ", __LINE__);
-			*	printf("(tag.on=1, fmt[i]=%c(%d))\n", c, c);
-			*}
-			*/
-			count = -1;
+			b_written = 0;
+			reset_tag(tag);
 			break;
 		}
 	}
 
-	return (count);
+	return (b_written);
 }
 
 /**
@@ -58,21 +64,17 @@ int process_tag_on(char c, tag_t *tag, va_list ap)
  * @c: char to process
  * @tag: pointer to tag information holding struct
  *
- * Return: number of characters printed, or -1 on error
+ * Return: number of characters printed
  */
 int process_tag_off(char c, tag_t *tag)
 {
-	int count = 0;
+	int b_written;
 
 	switch (c)
 	{
 		case '%':
 		{
-			/*
-			*if (DEBUG)
-			*	printf("%%: \n");
-			*/
-
+			b_written = 0;
 			tag->on = 1;
 			tag->spec = '\0';
 			break;
@@ -80,52 +82,13 @@ int process_tag_off(char c, tag_t *tag)
 
 		default:
 		{
-			/*
-			*if (DEBUG)
-			*{
-			*	printf("default: ");
-			*	fflush(stdout);
-			*}
-			*/
-
-			count = _putchar(c);
-
-			/*
-			*if  (DEBUG)
-			*	printf(" [count: %d]\n", count);
-			*/
-
-			tag->spec = '\0';
-
+			b_written = _putchar(c);
+			reset_tag(tag);
 			break;
 		}
 	}
 
-	return (count);
-}
-
-/**
- * pchar - prints a char or its ascii name if not printable
- * @c: char to print
- */
-void pchar(char c)
-{
-	const char *ascii_names[] = {
-		"NUL", "SOH", "STX", "ETX", "EOT", "ENQ", "ACK", "BEL",
-		"BS",  "TAB", "LF",  "VT",  "FF",  "CR",  "SO",  "SI",
-		"DLE", "DC1", "DC2", "DC3", "DC4", "NAK", "SYN", "ETB",
-		"CAN", "EM",  "SUB", "ESC", "FS",  "GS",  "RS",  "US",
-		"SPACE"
-	};
-
-	if (c >= 0 && c <= 32)
-	{
-		printf("%s", ascii_names[(int)c]);
-	}
-	else
-	{
-		printf("%c", c);
-	}
+	return (b_written);
 }
 
 /**
@@ -133,13 +96,15 @@ void pchar(char c)
  * @format: string holding what to print and format tags for any provided
  * variadic arguments
  *
- * Return: printed chars count (excluding '\0') or -1 on error
+ * Return: printed chars count (excluding '\0')
  */
 int _printf(const char *format, ...)
 {
-	int count = 0, i_count;
-	va_list ap;
+	int b_written = 0;
+	int b_written_curr;
 	int i;
+	va_list ap;
+
 	tag_t tag = {
 		0,
 		'\0'
@@ -147,32 +112,20 @@ int _printf(const char *format, ...)
 
 	va_start(ap, format);
 
-	if (format == NULL)
+	for (i = 0; format[i] != '\0'; i++)
 	{
-		printf("format == NULL");
-		return (-1);
-	}
-
-	i = 0;
-	while (format[i] != '\0')
-	{
-		if (DEBUG)
+		if (tag.on)
 		{
-			printf("\n(len: %d) Processing: ", count);
-			pchar(format[i]);
-			printf("(%d)...\n", format[i]);
+			b_written_curr = process_tag_on(format[i], &tag, ap);
+		}
+		else
+		{
+			b_written_curr = process_tag_off(format[i], &tag);
 		}
 
-		if (tag.on)
-			i_count = process_tag_on(format[i], &tag, ap);
-		else
-			i_count = process_tag_off(format[i], &tag);
-
-		if (i_count == -1)
-			return (-1);
-		count += i_count;
-		i++;
+		if (b_written_curr != -1)
+			b_written += b_written_curr;
 	}
 
-	return (count);
+	return (b_written);
 }
