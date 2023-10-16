@@ -11,17 +11,20 @@ int print_char_plain(char c)
 {
 	int result;
 
-	if (DEBUG)
-	{
-		printf("print_char_plain: ");
-		fflush(stdout);
+	/*
+	*if (DEBUG)
+	*{
+	*	printf("print_char_plain: ");
+	*	fflush(stdout);
 	}
+	*/
 
 	result = _putchar(c);
 
-	if (DEBUG)
-		printf(" [count: %d]\n", result);
-
+	/*
+	*if (DEBUG)
+	*	printf(" [count: %d]\n", result);
+	*/
 	return (result);
 }
 
@@ -34,17 +37,41 @@ int print_char_plain(char c)
 int print_char(va_list ap)
 {
 	int result;
+	int arg;
 
-	if (DEBUG)
+	/*
+	*if (DEBUG)
+	*{
+	*	printf("print_char: ");
+	*	fflush(stdout);
+	}
+	*/
+
+	arg = va_arg(ap, int);
+
+	if (sizeof(arg) != 4)
 	{
-		printf("print_char: ");
-		fflush(stdout);
+		if (DEBUG)
+		{
+			printf("sizeof(arg) = %lu != 4", sizeof(arg));
+			return (-1);
+		}
+	}
+	if (arg < 0 || arg > 255)
+	{
+		if (DEBUG)
+		{
+			printf("arg(%d): < 0 || > 255", arg);
+			return (-1);
+		}
 	}
 
 	result = _putchar(va_arg(ap, int));
 
-	if (DEBUG)
-		printf(" [count: %d]\n", result);
+	/*
+	*if (DEBUG)
+	*	printf(" [count: %d]\n", result);
+	*/
 
 	return (result);
 }
@@ -59,25 +86,33 @@ int print_str(va_list ap)
 {
 	char *str = va_arg(ap, char *);
 	int i;
-	int i_result, result;
+	int i_result, result = 0;
 
-	if (DEBUG)
-	{
-		printf("print_str: ");
-		fflush(stdout);
-	}
+	/*
+	*if (DEBUG)
+	*{
+	*	printf("print_str: ");
+	*	fflush(stdout);
+	*}
+	*/
 
 	for (i = 0; str[i] != '\0'; i++)
 	{
 		i_result = _putchar(str[i]);
+		if (DEBUG)
+		{
+			printf("\nprint_str: i_result(%d), result(%d)\n", i_result, result);
+		}
 		if (i_result == -1)
 			return (-1);
 
 		result += i_result;
 	}
 
-	if (DEBUG)
-		printf(" [count: %d]\n", result);
+	/*
+	*if (DEBUG)
+	*	printf(" [count: %d]\n", result);
+	*/
 
 	return (result);
 }
