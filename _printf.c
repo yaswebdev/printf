@@ -50,7 +50,7 @@ int process_tag_on(char c, tag_t *tag, va_list ap)
 
 		default:
 		{
-			b_written = 0;
+			b_written = -1;
 			reset_tag(tag);
 			break;
 		}
@@ -126,8 +126,9 @@ int _printf(const char *format, ...)
 			b_written_curr = process_tag_off(format[i], &tag);
 		}
 
-		if (b_written_curr != -1)
-			b_written += b_written_curr;
+		if (b_written_curr == -1)
+			return (-1);
+		b_written += b_written_curr;
 	}
 
 	return (b_written);
