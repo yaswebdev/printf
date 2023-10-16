@@ -1,6 +1,6 @@
 #include "../main.h"
 
-#define N_TESTS (13)
+#define N_TESTS (16)
 
 void dbgprintout(char *s)
 {
@@ -72,7 +72,7 @@ int main(void)
 
 	/**/
 	i++;
-	input[i] = "printf(\"%c\"), 'C'";
+	input[i] = "printf(\"%c\", 'C')";
 
 	start_capture();
 	count[i] = printf("%c", 'C');
@@ -83,17 +83,56 @@ int main(void)
 	_output[i] = end_capture();
 	/**/
 
-	
 	/**/
 	i++;
-	input[i] = "printf(\"d%cd\")";
+	input[i] = "printf(\"%c\", 0)";
 
 	start_capture();
-	count[i] = printf("d%cd");
+	count[i] = printf("%c", 0);
 	output[i] = end_capture();
 
 	start_capture();
-	_count[i] = _printf("d%cd");
+	_count[i] = _printf("%c", 0);
+	_output[i] = end_capture();
+	/**/
+
+	/**/
+	i++;
+	input[i] = "printf(\"%c\", 5)";
+
+	start_capture();
+	count[i] = printf("%c", 5);
+	output[i] = end_capture();
+
+	start_capture();
+	_count[i] = _printf("%c", 5);
+	_output[i] = end_capture();
+	/**/
+
+	/**/
+	i++;
+	input[i] = "printf(\"%c\", 101)";
+
+	start_capture();
+	count[i] = printf("%c", 101);
+	output[i] = end_capture();
+
+	start_capture();
+	_count[i] = _printf("%c", 101);
+	_output[i] = end_capture();
+	/**/
+
+	
+	/**/
+	i++;
+	input[i] = "printf(\"%c\")";
+
+	start_capture();
+	count[i] = printf("%c");
+	output[i] = end_capture();
+
+	start_capture();
+	_count[i] = _printf("%c");
 	_output[i] = end_capture();
 	/**/
 
@@ -133,6 +172,10 @@ int main(void)
 	/*printf("\%s: |");
 	int x = printf("%s");
 	printf("|, %d\n", x);*/
+
+	/*printf("Hlwqdqwd:\n|");
+	_printf("%s");
+	printf("|\n");*/
 
 	/*start_capture();
 	count[i] = printf("%s");

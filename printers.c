@@ -40,9 +40,14 @@ int ptag_str(va_list ap)
 		arg = "(null)";
 	}
 
+	/*printf("%p\n", arg);*/
+	/*printf("arg[0]: %s\n", arg[0]);*/
+
 	for (i = 0; arg[i] != '\0'; i++)
 	{
+		printf("str char: |");
 		count += _putchar(arg[i]);
+		printf("|\n");
 	}
 
 	return (count);

@@ -113,7 +113,10 @@ int _printf(const char *format, ...)
 	va_start(ap, format);
 
 	if (format == NULL)
+	{
+		va_end(ap);
 		return (-1);
+	}
 
 	for (i = 0; format[i] != '\0'; i++)
 	{
@@ -127,12 +130,20 @@ int _printf(const char *format, ...)
 		}
 
 		if (b_written_curr == -1)
+		{
+			va_end(ap);
 			return (-1);
+		}
 		b_written += b_written_curr;
 	}
 
 	if (tag.on)
+	{
+		va_end(ap);
 		return (-1);
+	}
 
+	
+	va_end(ap);
 	return (b_written);
 }
