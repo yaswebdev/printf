@@ -33,6 +33,7 @@ int process_tag_on(char c, tag_t *tag, va_list ap)
 		}
 
 		case 'c':
+		case 'C':
 		{
 			tag->spec = 'c';
 			b_written = ptag_char(ap);
@@ -50,7 +51,14 @@ int process_tag_on(char c, tag_t *tag, va_list ap)
 
 		case 'd':
 		case 'i':
-			b_written = -1;
+		case 'u':
+		case 'e':
+		case 'E':
+		case 'f':
+		case 'g':
+		case 'G':
+		case 'o':
+			b_written = 0;
 			reset_tag(tag);
 			break;
 
