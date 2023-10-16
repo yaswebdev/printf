@@ -56,21 +56,6 @@ int process_tag_on(char c, tag_t *tag, va_list ap)
 			break;
 		}
 
-		/*case 'd':
-		case 'i':
-		case 'e':
-		case 'E':
-		case 'f':
-		case 'g':
-		case 'G':
-		case 'o':
-		case 'u':
-		case 'x':
-		case 'X':
-		case 'p':
-		case 'n':
-		*/
-		
 		default:
 		{
 			_putchar('%');
@@ -169,7 +154,7 @@ int _printf(const char *format, ...)
 		return (-1);
 	}
 
-	
+
 	va_end(ap);
 	return (b_written);
 }

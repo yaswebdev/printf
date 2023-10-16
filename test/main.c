@@ -1,6 +1,6 @@
 #include "../main.h"
 
-#define N_TESTS (18)
+#define N_TESTS (19)
 
 void dbgprintout(char *s)
 {
@@ -271,6 +271,19 @@ int main(void)
 	_output[i] = end_capture();
 	/**/
 
+	/**/
+	i++;
+	input[i] = "printf(\"% w\")";
+
+	start_capture();
+	count[i] = printf("% w");
+	output[i] = end_capture();
+
+	start_capture();
+	_count[i] = _printf("% w");
+	_output[i] = end_capture();
+	/**/
+
 
 
 	/**/
@@ -288,7 +301,7 @@ int main(void)
 
 	/**/
 	i++;
-	input[i] = "printf(\"%d\"), 99";
+	input[i] = "printf(\"%d\", 99)";
 
 	start_capture();
 	count[i] = printf("%d", 99);
@@ -329,7 +342,7 @@ int main(void)
 		printf("\tBytes written (return value): %s\n\t\t printf: %d\n\t\t_printf: %d\n\n", count[i] == _count[i] ? "==" : "!=", count[i], _count[i]);
 		printf("\tStr cmp: %s\n\n ", strcmp(output[i], _output[i]) == 0 ? "==" : "!=");
 
-		if (count[i] != _count[i])
+		if (count[i] != _count[i] || strcmp(output[i], _output[i]) != 0)
 		{
 			printf(RED_TEXT "\t\t\t !!!!!!!!!!!!!! ERROR !!!!!!!!!!!!!!\n");
 			/*printf("printf:\n----------\n|%s|\n----------\n\n", output[i]);*/
