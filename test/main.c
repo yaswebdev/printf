@@ -226,6 +226,12 @@ int main(void)
 	/**/
 
 	/**/
+	printf("printf %%:\n");
+	printf("%");
+	printf("printf %% over\n");
+	printf("_printf %%:\n");
+	_printf("%");
+	printf("_printf %% over\n");
 	i++;
 	input[i] = "printf(\"%\")";
 
