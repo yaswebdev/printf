@@ -25,8 +25,7 @@ int _printf(const char *format, ...);
 void start_capture(void);
 char *end_capture(void);
 
-int ptag_char(va_list ap);
-int ptag_str(va_list ap);
+void reset_tag(tag_t *tag);
 
 int process_percent(tag_t *tag);
 int process_c(tag_t *tag, va_list ap);
