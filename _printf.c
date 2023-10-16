@@ -51,13 +51,17 @@ int process_tag_on(char c, tag_t *tag, va_list ap)
 
 		case 'd':
 		case 'i':
-		case 'u':
 		case 'e':
 		case 'E':
 		case 'f':
 		case 'g':
 		case 'G':
 		case 'o':
+		case 'u':
+		case 'x':
+		case 'X':
+		case 'p':
+		case 'n':
 			b_written = 0;
 			reset_tag(tag);
 			break;
