@@ -27,26 +27,24 @@ int process_tag_on(char c, tag_t *tag, va_list ap)
 		case '%':
 			b_written = process_percent(tag);
 			break;
-
 		case 'c':
 		case 'C':
 			b_written = process_c(tag, ap);
 			break;
-
 		case 's':
 			b_written = process_s(tag, ap);
 			break;
-
 		case 'i':
 		case 'd':
 			b_written = process_d(tag, ap);
 			break;
-
+		case 'b':
+			b_written = process_b(tag, ap);
+			break;
 		case ' ':
 			b_written = -1;
 			reset_tag(tag);
 			break;
-
 		default:
 			_putchar('%');
 			_putchar(c);

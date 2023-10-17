@@ -26,11 +26,14 @@ void start_capture(void);
 char *end_capture(void);
 
 void reset_tag(tag_t *tag);
+void print_number(int n, int *b_written);
+int *decimal_to_binary(unsigned int num);
 
 int process_percent(tag_t *tag);
 int process_c(tag_t *tag, va_list ap);
 int process_s(tag_t *tag, va_list ap);
 int process_d(tag_t *tag, va_list ap);
+int process_b(tag_t *tag, va_list ap);
 
 #define RED_TEXT   "\x1B[31m"
 #define RESET_TEXT "\x1B[0m"

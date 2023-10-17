@@ -29,9 +29,9 @@ int process_c(tag_t *tag, va_list ap)
 	int arg = va_arg(ap, int);
 
 	/*
-	* if (arg < 32 || arg > 126)
-	*	return (0);
-	*/
+	 * if (arg < 32 || arg > 126)
+	 *	return (0);
+	 */
 
 
 	/*printf("\narg: %d\n", arg);*/
@@ -75,30 +75,6 @@ int process_s(tag_t *tag, va_list ap)
 	return (b_written);
 }
 
-/**
- * print_number - prints an integer
- * @n: integer to print
- * @b_written: pointer to variable holding recursively printed bytes
- */
-void print_number(int n, int *b_written)
-{
-	unsigned int x;
-
-	if (n < 0)
-	{
-		_putchar('-');
-		(*b_written)++;
-		n *= -1;
-	}
-
-	x = n;
-
-	if (x / 10)
-		print_number(x / 10, b_written);
-
-	_putchar(x % 10 + '0');
-	(*b_written)++;
-}
 
 /**
  * process_d - prints an int from the next variable function argument
@@ -117,3 +93,31 @@ int process_d(tag_t *tag, va_list ap)
 
 	return (b_written);
 }
+
+/**
+ * process_b - prints an unsigned int from the next variable function argument
+ * as binary
+ * @tag: pointer to struct holding tag's options
+ * @ap: variable argument pointer
+ *
+ * Return: number of bytes printed
+ */
+int process_b(tag_t *tag, va_list ap)
+{
+	int b_written = 0, i;
+	unsigned int arg = va_arg(ap, unsigned int);
+	int *bin;
+
+	bin = decimal_to_binary(arg);
+
+	for (i = 1 + bin[0] - 1; i >= 1; i--)
+	{
+		b_written += _putchar('0' + bin[i]);
+	}
+
+	reset_tag(tag);
+
+	return (b_written);
+}
+
+
