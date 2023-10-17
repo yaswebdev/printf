@@ -77,18 +77,18 @@ int process_s(tag_t *tag, va_list ap)
 
 
 /**
- * process_d - prints an int from the next variable function argument
+ * process_int - prints an int from the next variable function argument
  * @tag: pointer to struct holding tag's options
  * @ap: variable argument pointer
  *
  * Return: number of bytes printed
  */
-int process_d(tag_t *tag, va_list ap)
+int process_int(tag_t *tag, va_list ap)
 {
 	int b_written = 0;
 	int arg = va_arg(ap, int);
 
-	print_number(arg, &b_written);
+	print_number(arg, &b_written, tag->is_signed);
 	reset_tag(tag);
 
 	return (b_written);

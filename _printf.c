@@ -8,6 +8,7 @@ void reset_tag(tag_t *tag)
 {
 	tag->on = 0;
 	tag->spec = '\0';
+	tag->is_signed = 1;
 }
 
 /**
@@ -36,7 +37,12 @@ int process_tag_on(char c, tag_t *tag, va_list ap)
 			break;
 		case 'i':
 		case 'd':
-			b_written = process_d(tag, ap);
+			tag->is_signed = 1;
+			b_written = process_int(tag, ap);
+			break;
+		case 'u':
+			tag->is_signed = 0;
+			b_written = process_int(tag, ap);
 			break;
 		case 'b':
 			b_written = process_b(tag, ap);
@@ -75,6 +81,7 @@ int process_tag_off(char c, tag_t *tag)
 			b_written = 0;
 			tag->on = 1;
 			tag->spec = '\0';
+			tag->is_signed = 1;
 			break;
 		}
 
@@ -105,7 +112,8 @@ int _printf(const char *format, ...)
 
 	tag_t tag = {
 		0,
-		'\0'
+		'\0',
+		1
 	};
 
 	va_start(ap, format);

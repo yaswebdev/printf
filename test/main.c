@@ -1,6 +1,6 @@
 #include "../main.h"
 
-#define N_TESTS (22)
+#define N_TESTS (25)
 
 void dbgprintout(char *s)
 {
@@ -285,7 +285,7 @@ int main(void)
 	/**/
 
 
-
+	/*******************(%d)************************/
 	/**/
 	i++;
 	input[i] = "printf(\"%d\")";
@@ -324,6 +324,47 @@ int main(void)
 	_count[i] = _printf("%d", -12);
 	_output[i] = end_capture();
 	/**/
+
+	/*************************(%u)************************/
+	/**/
+	i++;
+	input[i] = "printf(\"%u\")";
+
+	start_capture();
+	count[i] = printf("%u");
+	output[i] = end_capture();
+
+	start_capture();
+	_count[i] = _printf("%u");
+	_output[i] = end_capture();
+	/**/
+
+	/**/
+	i++;
+	input[i] = "printf(\"%u\", 90809)";
+
+	start_capture();
+	count[i] = printf("%u", 90809);
+	output[i] = end_capture();
+
+	start_capture();
+	_count[i] = _printf("%u", 90809);
+	_output[i] = end_capture();
+	/**/
+
+	/**/
+	i++;
+	input[i] = "printf(\"%u\", -12)";
+
+	start_capture();
+	count[i] = printf("%u", -12);
+	output[i] = end_capture();
+
+	start_capture();
+	_count[i] = _printf("%u", -12);
+	_output[i] = end_capture();
+	/**/
+
 
 	/**/
 	i++;
