@@ -87,6 +87,7 @@ void print_number(int n, int *b_written)
 	if (n < 0)
 	{
 		_putchar('-');
+		(*b_written)++;
 		n *= -1;
 	}
 
