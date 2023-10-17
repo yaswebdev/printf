@@ -25,8 +25,8 @@ struct Tag
 typedef struct Tag tag_t;
 
 int _putchar(char c);
-void putchar_buf(char c, char *buffer, int *buffer_len);
-int writebuffer(char *buffer, int *buffer_len);
+void putchar_buf(char c, char *buffer, int *buffer_len, int *bwritten);
+int writebuffer(char *buffer, int buffer_len);
 int _printf(const char *format, ...);
 void start_capture(void);
 char *end_capture(void);
@@ -36,11 +36,11 @@ void print_number(int n, int *b_written, int is_signed);
 int *decimal_to_binary(unsigned int num);
 int *decimal_to_basex(unsigned int num, int base);
 
-int process_percent(tag_t *tag, char *buffer, int *buffer_len);
-int process_c(tag_t *tag, va_list ap, char *buffer, int *buffer_len);
-int process_s(tag_t *tag, va_list ap, char *buffer, int *buffer_len);
-int process_int(tag_t *tag, va_list ap, char *buffer, int *buffer_len);
-int process_b(tag_t *tag, va_list ap, char *buffer, int *buffer_len);
+int process_percent(tag_t *tag, char *buffer, int *buffer_len, int *bwritten);
+int process_c(tag_t *tag, va_list ap, char *buffer, int *buffer_len, int *bwritten);
+int process_s(tag_t *tag, va_list ap, char *buffer, int *buffer_len, int *bwritten);
+int process_int(tag_t *tag, va_list ap, char *buffer, int *buffer_len, int *bwritten);
+int process_b(tag_t *tag, va_list ap, char *buffer, int *buffer_len, int *bwritten);
 
 #define RED_TEXT   "\x1B[31m"
 #define RESET_TEXT "\x1B[0m"

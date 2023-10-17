@@ -6,9 +6,9 @@
  *
  * Return: -1 on error, 0 otherwise
  */
-int process_percent(tag_t *tag, char *buffer, int *buffer_len)
+int process_percent(tag_t *tag, char *buffer, int *buffer_len, int *bwritten)
 {
-	putchar_buf('%', buffer, buffer_len);
+	putchar_buf('%', buffer, buffer_len, bwritten);
 	reset_tag(tag);
 
 	return (0);
@@ -21,7 +21,7 @@ int process_percent(tag_t *tag, char *buffer, int *buffer_len)
  *
  * Return: -1 on error, 0 otherwise
  */
-int process_c(tag_t *tag, va_list ap, char *buffer, int *buffer_len)
+int process_c(tag_t *tag, va_list ap, char *buffer, int *buffer_len, int *bwritten)
 {
 	int arg = va_arg(ap, int);
 
@@ -33,7 +33,7 @@ int process_c(tag_t *tag, va_list ap, char *buffer, int *buffer_len)
 
 	/*printf("\narg: %d\n", arg);*/
 
-	putchar_buf(arg, buffer, buffer_len);
+	putchar_buf(arg, buffer, buffer_len, bwritten);
 	reset_tag(tag);
 
 	return (0);
@@ -46,7 +46,7 @@ int process_c(tag_t *tag, va_list ap, char *buffer, int *buffer_len)
  *
  * Return: -1 on error, 0 otherwise
  */
-int process_s(tag_t *tag, va_list ap, char *buffer, int *buffer_len)
+int process_s(tag_t *tag, va_list ap, char *buffer, int *buffer_len, int *bwritten)
 {
 	char *arg = va_arg(ap, char *);
 	int i;
@@ -62,7 +62,7 @@ int process_s(tag_t *tag, va_list ap, char *buffer, int *buffer_len)
 	for (i = 0; arg[i] != '\0'; i++)
 	{
 		/*printf("str char: |");*/
-		putchar_buf(arg[i], buffer, buffer_len);
+		putchar_buf(arg[i], buffer, buffer_len, bwritten);
 		/*printf("|\n");*/
 	}
 
@@ -79,7 +79,7 @@ int process_s(tag_t *tag, va_list ap, char *buffer, int *buffer_len)
  *
  * Return: -1 on error, 0 otherwise
  */
-int process_int(tag_t *tag, va_list ap, char *buffer, int *buffer_len)
+int process_int(tag_t *tag, va_list ap, char *buffer, int *buffer_len, int *bwritten)
 {
 	int i;
 	int arg = va_arg(ap, int);
@@ -88,7 +88,7 @@ int process_int(tag_t *tag, va_list ap, char *buffer, int *buffer_len)
 
 	if (tag->is_signed && arg < 0)
 	{
-		putchar_buf('-', buffer, buffer_len);
+		putchar_buf('-', buffer, buffer_len, bwritten);
 		arg *= -1;
 	}
 	arg_unsigned = arg;
@@ -100,12 +100,12 @@ int process_int(tag_t *tag, va_list ap, char *buffer, int *buffer_len)
 		if (tag->base > 10)
 		{
 			if (num_arr[i] >= 10)
-				putchar_buf((tag->is_capital ? 'A' : 'a') + num_arr[i] - 10, buffer, buffer_len);
+				putchar_buf((tag->is_capital ? 'A' : 'a') + num_arr[i] - 10, buffer, buffer_len, bwritten);
 			else
-				putchar_buf('0' + num_arr[i], buffer, buffer_len);
+				putchar_buf('0' + num_arr[i], buffer, buffer_len, bwritten);
 		}
 		else
-			putchar_buf('0' + num_arr[i], buffer, buffer_len);
+			putchar_buf('0' + num_arr[i], buffer, buffer_len, bwritten);
 	}
 
 	/*print_number(arg, &b_written, tag->is_signed);*/
@@ -122,7 +122,7 @@ int process_int(tag_t *tag, va_list ap, char *buffer, int *buffer_len)
  *
  * Return: -1 on error, 0 otherwise
  */
-int process_b(tag_t *tag, va_list ap, char *buffer, int *buffer_len)
+int process_b(tag_t *tag, va_list ap, char *buffer, int *buffer_len, int *bwritten)
 {
 	int i;
 	unsigned int arg = va_arg(ap, unsigned int);
@@ -132,7 +132,7 @@ int process_b(tag_t *tag, va_list ap, char *buffer, int *buffer_len)
 
 	for (i = 1 + bin[0] - 1; i >= 1; i--)
 	{
-		putchar_buf('0' + bin[i], buffer, buffer_len);
+		putchar_buf('0' + bin[i], buffer, buffer_len, bwritten);
 	}
 
 	reset_tag(tag);

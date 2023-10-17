@@ -8,9 +8,9 @@
  *
  * Return: n of bytes written, or -1 on error
  */
-int writebuffer(char *buffer, int *buffer_len)
+int writebuffer(char *buffer, int buffer_len)
 {
-	int bwritten = (write(1, buffer, *buffer_len));
+	int bwritten = (write(1, buffer, buffer_len));
 
 	/*
 	*if (bwritten == -1)

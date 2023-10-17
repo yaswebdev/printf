@@ -21,58 +21,58 @@ void reset_tag(tag_t *tag)
  *
  * Return: number of characters printed
  */
-int process_tag_on(char c, tag_t *tag, va_list ap, char *buffer, int *buffer_len)
+int process_tag_on(char c, tag_t *tag, va_list ap, char *buffer, int *buffer_len, int *bwritten)
 {
 	switch (c)
 	{
 		case '%':
-			return (process_percent(tag, buffer, buffer_len));
+			return (process_percent(tag, buffer, buffer_len, bwritten));
 			break;
 		case 'c':
 		case 'C':
-			return (process_c(tag, ap, buffer, buffer_len));
+			return (process_c(tag, ap, buffer, buffer_len, bwritten));
 			break;
 		case 's':
-			return (process_s(tag, ap, buffer, buffer_len));
+			return (process_s(tag, ap, buffer, buffer_len, bwritten));
 			break;
 		case 'i':
 		case 'd':
 			tag->is_signed = 1;
 			tag->base = 10;
-			return (process_int(tag, ap, buffer, buffer_len));
+			return (process_int(tag, ap, buffer, buffer_len, bwritten));
 			break;
 		case 'o':
 			tag->is_signed = 0;
 			tag->base = 8;
-			return (process_int(tag, ap, buffer, buffer_len));
+			return (process_int(tag, ap, buffer, buffer_len, bwritten));
 			break;
 		case 'x':
 			tag->is_capital = 0;
 			tag->is_signed = 0;
 			tag->base = 16;
-			return (process_int(tag, ap, buffer, buffer_len));
+			return (process_int(tag, ap, buffer, buffer_len, bwritten));
 			break;
 		case 'X':
 			tag->is_capital = 1;
 			tag->is_signed = 0;
 			tag->base = 16;
-			return (process_int(tag, ap, buffer, buffer_len));
+			return (process_int(tag, ap, buffer, buffer_len, bwritten));
 			break;
 		case 'u':
 			tag->is_signed = 0;
 			tag->base = 10;
-			return (process_int(tag, ap, buffer, buffer_len));
+			return (process_int(tag, ap, buffer, buffer_len, bwritten));
 			break;
 		case 'b':
-			return (process_b(tag, ap, buffer, buffer_len));
+			return (process_b(tag, ap, buffer, buffer_len, bwritten));
 			break;
 		case ' ':
 			reset_tag(tag);
 			return (-1);
 			break;
 		default:
-			putchar_buf('%', buffer, buffer_len);
-			putchar_buf(c, buffer, buffer_len);
+			putchar_buf('%', buffer, buffer_len, bwritten);
+			putchar_buf(c, buffer, buffer_len, bwritten);
 			va_arg(ap, int);
 			reset_tag(tag);
 			return (0);
@@ -89,7 +89,7 @@ int process_tag_on(char c, tag_t *tag, va_list ap, char *buffer, int *buffer_len
  *
  * Return: -1 on error, 0 otherwise
  */
-int process_tag_off(char c, tag_t *tag, char *buffer, int *buffer_len)
+int process_tag_off(char c, tag_t *tag, char *buffer, int *buffer_len, int *bwritten)
 {
 	switch (c)
 	{
@@ -104,7 +104,7 @@ int process_tag_off(char c, tag_t *tag, char *buffer, int *buffer_len)
 
 		default:
 			{
-				putchar_buf(c, buffer, buffer_len);
+				putchar_buf(c, buffer, buffer_len, bwritten);
 				reset_tag(tag);
 				return (0);
 				break;
@@ -127,6 +127,7 @@ int _printf(const char *format, ...)
 	va_list ap;
 	char buffer[1024];
 	int buffer_len = 0;
+	int bwritten = 0;
 
 	tag_t tag = {
 		0,
@@ -148,7 +149,7 @@ int _printf(const char *format, ...)
 	{
 		if (tag.on)
 		{
-			if (process_tag_on(format[i], &tag, ap, buffer, &buffer_len) == -1)
+			if (process_tag_on(format[i], &tag, ap, buffer, &buffer_len, &bwritten) == -1)
 			{
 				va_end(ap);
 				return (-1);
@@ -156,7 +157,7 @@ int _printf(const char *format, ...)
 		}
 		else
 		{
-			if (process_tag_off(format[i], &tag, buffer, &buffer_len) == -1)
+			if (process_tag_off(format[i], &tag, buffer, &buffer_len, &bwritten) == -1)
 			{
 				va_end(ap);
 				return (-1);
@@ -169,5 +170,6 @@ int _printf(const char *format, ...)
 	if (tag.on)
 		return (-1);
 
-	return (writebuffer(buffer, &buffer_len));
+	bwritten += (writebuffer(buffer, buffer_len));
+	return (bwritten);
 }

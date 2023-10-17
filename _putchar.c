@@ -26,8 +26,14 @@ int _putchar(char c)
 	return (bwritten);
 }
 
-void putchar_buf(char c, char *buffer, int *i)
+void putchar_buf(char c, char *buffer, int *buffer_len, int *bwritten)
 {
-	buffer[*i] = c;
-	(*i)++;
+	if (*buffer_len == 1024)
+	{
+		(*bwritten) += writebuffer(buffer, *buffer_len);
+		*buffer_len = 0;
+	}
+
+	buffer[*buffer_len] = c;
+	(*buffer_len)++;
 }
