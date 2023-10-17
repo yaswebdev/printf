@@ -10,6 +10,7 @@ void reset_tag(tag_t *tag)
 	tag->spec = '\0';
 	tag->is_signed = 1;
 	tag->base = 10;
+	tag->is_capital = 0;
 }
 
 /**
@@ -43,8 +44,20 @@ int process_tag_on(char c, tag_t *tag, va_list ap)
 			b_written = process_int(tag, ap);
 			break;
 		case 'o':
-			tag->is_signed = 1;
+			tag->is_signed = 0;
 			tag->base = 8;
+			b_written = process_int(tag, ap);
+			break;
+		case 'x':
+			tag->is_capital = 0;
+			tag->is_signed = 0;
+			tag->base = 16;
+			b_written = process_int(tag, ap);
+			break;
+		case 'X':
+			tag->is_capital = 1;
+			tag->is_signed = 0;
+			tag->base = 16;
 			b_written = process_int(tag, ap);
 			break;
 		case 'u':
@@ -85,20 +98,20 @@ int process_tag_off(char c, tag_t *tag)
 	switch (c)
 	{
 		case '%':
-		{
-			b_written = 0;
-			tag->on = 1;
-			tag->spec = '\0';
-			tag->is_signed = 1;
-			break;
-		}
+			{
+				b_written = 0;
+				tag->on = 1;
+				tag->spec = '\0';
+				tag->is_signed = 1;
+				break;
+			}
 
 		default:
-		{
-			b_written = _putchar(c);
-			reset_tag(tag);
-			break;
-		}
+			{
+				b_written = _putchar(c);
+				reset_tag(tag);
+				break;
+			}
 	}
 
 	return (b_written);
@@ -122,7 +135,8 @@ int _printf(const char *format, ...)
 		0,
 		'\0',
 		1,
-		10
+		10,
+		0
 	};
 
 	va_start(ap, format);

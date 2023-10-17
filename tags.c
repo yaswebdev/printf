@@ -100,7 +100,17 @@ int process_int(tag_t *tag, va_list ap)
 	num_arr = decimal_to_basex(arg_unsigned, tag->base);
 
 	for (i = 1 + num_arr[0] - 1; i >= 1; i--)
-		b_written += _putchar('0' + num_arr[i]);
+	{
+		if (tag->base > 10)
+		{
+			if (num_arr[i] >= 10)
+				b_written += _putchar((tag->is_capital ? 'A' : 'a') + num_arr[i] - 10);
+			else
+				b_written += _putchar('0' + num_arr[i]);
+		}
+		else
+			b_written += _putchar('0' + num_arr[i]);
+	}
 
 	/*print_number(arg, &b_written, tag->is_signed);*/
 	reset_tag(tag);

@@ -20,6 +20,7 @@ struct Tag
 	char spec;
 	int is_signed;
 	int base;
+	int is_capital;
 };
 typedef struct Tag tag_t;
 
