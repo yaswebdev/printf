@@ -25,3 +25,9 @@ int _putchar(char c)
 
 	return (bwritten);
 }
+
+void putchar_buf(char c, char *buffer, int *i)
+{
+	buffer[*i] = c;
+	(*i)++;
+}

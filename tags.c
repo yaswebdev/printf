@@ -4,16 +4,14 @@
  * process_percent - prints a percentage sign
  * @tag: pointer to struct holding tag's options
  *
- * Return: number of bytes printed
+ * Return: -1 on error, 0 otherwise
  */
-int process_percent(tag_t *tag)
+int process_percent(tag_t *tag, char *buffer, int *buffer_len)
 {
-	int b_written;
-
-	b_written = _putchar('%');
+	putchar_buf('%', buffer, buffer_len);
 	reset_tag(tag);
 
-	return (b_written);
+	return (0);
 }
 
 /**
@@ -21,11 +19,10 @@ int process_percent(tag_t *tag)
  * @tag: pointer to struct holding tag's options
  * @ap: variable argument pointer
  *
- * Return: number of bytes printed
+ * Return: -1 on error, 0 otherwise
  */
-int process_c(tag_t *tag, va_list ap)
+int process_c(tag_t *tag, va_list ap, char *buffer, int *buffer_len)
 {
-	int b_written;
 	int arg = va_arg(ap, int);
 
 	/*
@@ -36,10 +33,10 @@ int process_c(tag_t *tag, va_list ap)
 
 	/*printf("\narg: %d\n", arg);*/
 
-	b_written = _putchar(arg);
+	putchar_buf(arg, buffer, buffer_len);
 	reset_tag(tag);
 
-	return (b_written);
+	return (0);
 }
 
 /**
@@ -47,11 +44,10 @@ int process_c(tag_t *tag, va_list ap)
  * @tag: pointer to struct holding tag's options
  * @ap: variable argument pointer
  *
- * Return: number of bytes printed
+ * Return: -1 on error, 0 otherwise
  */
-int process_s(tag_t *tag, va_list ap)
+int process_s(tag_t *tag, va_list ap, char *buffer, int *buffer_len)
 {
-	int b_written = 0;
 	char *arg = va_arg(ap, char *);
 	int i;
 
@@ -66,13 +62,13 @@ int process_s(tag_t *tag, va_list ap)
 	for (i = 0; arg[i] != '\0'; i++)
 	{
 		/*printf("str char: |");*/
-		b_written += _putchar(arg[i]);
+		putchar_buf(arg[i], buffer, buffer_len);
 		/*printf("|\n");*/
 	}
 
 	reset_tag(tag);
 
-	return (b_written);
+	return (0);
 }
 
 
@@ -81,18 +77,18 @@ int process_s(tag_t *tag, va_list ap)
  * @tag: pointer to struct holding tag's options
  * @ap: variable argument pointer
  *
- * Return: number of bytes printed
+ * Return: -1 on error, 0 otherwise
  */
-int process_int(tag_t *tag, va_list ap)
+int process_int(tag_t *tag, va_list ap, char *buffer, int *buffer_len)
 {
-	int b_written = 0, i;
+	int i;
 	int arg = va_arg(ap, int);
 	unsigned int arg_unsigned;
 	int *num_arr;
 
 	if (tag->is_signed && arg < 0)
 	{
-		b_written += _putchar('-');
+		putchar_buf('-', buffer, buffer_len);
 		arg *= -1;
 	}
 	arg_unsigned = arg;
@@ -104,18 +100,18 @@ int process_int(tag_t *tag, va_list ap)
 		if (tag->base > 10)
 		{
 			if (num_arr[i] >= 10)
-				b_written += _putchar((tag->is_capital ? 'A' : 'a') + num_arr[i] - 10);
+				putchar_buf((tag->is_capital ? 'A' : 'a') + num_arr[i] - 10, buffer, buffer_len);
 			else
-				b_written += _putchar('0' + num_arr[i]);
+				putchar_buf('0' + num_arr[i], buffer, buffer_len);
 		}
 		else
-			b_written += _putchar('0' + num_arr[i]);
+			putchar_buf('0' + num_arr[i], buffer, buffer_len);
 	}
 
 	/*print_number(arg, &b_written, tag->is_signed);*/
 	reset_tag(tag);
 
-	return (b_written);
+	return (0);
 }
 
 /**
@@ -124,11 +120,11 @@ int process_int(tag_t *tag, va_list ap)
  * @tag: pointer to struct holding tag's options
  * @ap: variable argument pointer
  *
- * Return: number of bytes printed
+ * Return: -1 on error, 0 otherwise
  */
-int process_b(tag_t *tag, va_list ap)
+int process_b(tag_t *tag, va_list ap, char *buffer, int *buffer_len)
 {
-	int b_written = 0, i;
+	int i;
 	unsigned int arg = va_arg(ap, unsigned int);
 	int *bin;
 
@@ -136,12 +132,12 @@ int process_b(tag_t *tag, va_list ap)
 
 	for (i = 1 + bin[0] - 1; i >= 1; i--)
 	{
-		b_written += _putchar('0' + bin[i]);
+		putchar_buf('0' + bin[i], buffer, buffer_len);
 	}
 
 	reset_tag(tag);
 
-	return (b_written);
+	return (0);
 }
 
 
