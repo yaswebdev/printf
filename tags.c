@@ -85,10 +85,24 @@ int process_s(tag_t *tag, va_list ap)
  */
 int process_int(tag_t *tag, va_list ap)
 {
-	int b_written = 0;
+	int b_written = 0, i;
 	int arg = va_arg(ap, int);
+	unsigned int arg_unsigned;
+	int *num_arr;
 
-	print_number(arg, &b_written, tag->is_signed);
+	if (tag->is_signed && arg < 0)
+	{
+		b_written += _putchar('-');
+		arg *= -1;
+	}
+	arg_unsigned = arg;
+
+	num_arr = decimal_to_basex(arg_unsigned, tag->base);
+
+	for (i = 1 + num_arr[0] - 1; i >= 1; i--)
+		b_written += _putchar('0' + num_arr[i]);
+
+	/*print_number(arg, &b_written, tag->is_signed);*/
 	reset_tag(tag);
 
 	return (b_written);

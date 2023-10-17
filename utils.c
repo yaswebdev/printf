@@ -21,8 +21,32 @@ int *decimal_to_binary(unsigned int num)
 	}
 
 
-	if (i != 32)
-		bin[i] = -1;
+	bin[0] = i - 1;
+
+	return (bin);
+}
+
+/**
+ * decimal_to_basex - converts decimal number to a base number
+ * @num: number in decimal form to convert
+ * @base: goal number base
+ *
+ * Return: binary number as array
+ */
+int *decimal_to_basex(unsigned int num, int base)
+{
+	static int bin[33];
+	int i = 1;
+
+	if (num == 0)
+		bin[i++] = 0;
+
+	for (; num > 0; )
+	{
+		bin[i++] = num % base;
+		num /= base;
+	}
+
 
 	bin[0] = i - 1;
 

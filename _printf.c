@@ -9,6 +9,7 @@ void reset_tag(tag_t *tag)
 	tag->on = 0;
 	tag->spec = '\0';
 	tag->is_signed = 1;
+	tag->base = 10;
 }
 
 /**
@@ -38,10 +39,17 @@ int process_tag_on(char c, tag_t *tag, va_list ap)
 		case 'i':
 		case 'd':
 			tag->is_signed = 1;
+			tag->base = 10;
+			b_written = process_int(tag, ap);
+			break;
+		case 'o':
+			tag->is_signed = 1;
+			tag->base = 8;
 			b_written = process_int(tag, ap);
 			break;
 		case 'u':
 			tag->is_signed = 0;
+			tag->base = 10;
 			b_written = process_int(tag, ap);
 			break;
 		case 'b':
@@ -113,7 +121,8 @@ int _printf(const char *format, ...)
 	tag_t tag = {
 		0,
 		'\0',
-		1
+		1,
+		10
 	};
 
 	va_start(ap, format);

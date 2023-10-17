@@ -19,6 +19,7 @@ struct Tag
 	int on;
 	char spec;
 	int is_signed;
+	int base;
 };
 typedef struct Tag tag_t;
 
@@ -30,6 +31,7 @@ char *end_capture(void);
 void reset_tag(tag_t *tag);
 void print_number(int n, int *b_written, int is_signed);
 int *decimal_to_binary(unsigned int num);
+int *decimal_to_basex(unsigned int num, int base);
 
 int process_percent(tag_t *tag);
 int process_c(tag_t *tag, va_list ap);
