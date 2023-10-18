@@ -11,6 +11,7 @@ void reset_tag(tag_t *tag)
 	tag->is_signed = 1;
 	tag->base = 10;
 	tag->is_capital = 0;
+	tag->is_print_np = 0;
 }
 
 /**
@@ -33,6 +34,10 @@ int process_tag_on(char c, tag_t *tag, va_list ap, char *buffer, int *buffer_len
 			return (process_c(tag, ap, buffer, buffer_len, bwritten));
 			break;
 		case 's':
+			return (process_s(tag, ap, buffer, buffer_len, bwritten));
+			break;
+		case 'S':
+			tag->is_print_np = 1;
 			return (process_s(tag, ap, buffer, buffer_len, bwritten));
 			break;
 		case 'i':
@@ -134,6 +139,7 @@ int _printf(const char *format, ...)
 		'\0',
 		1,
 		10,
+		0,
 		0
 	};
 

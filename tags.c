@@ -50,6 +50,7 @@ int process_s(tag_t *tag, va_list ap, char *buffer, int *buffer_len, int *bwritt
 {
 	char *arg = va_arg(ap, char *);
 	int i;
+	int *hex_arr;
 
 	if (arg == NULL)
 	{
@@ -62,7 +63,19 @@ int process_s(tag_t *tag, va_list ap, char *buffer, int *buffer_len, int *bwritt
 	for (i = 0; arg[i] != '\0'; i++)
 	{
 		/*printf("str char: |");*/
-		putchar_buf(arg[i], buffer, buffer_len, bwritten);
+		if (!tag->is_print_np)
+			putchar_buf(arg[i], buffer, buffer_len, bwritten);
+		else
+		{
+			if (arg[i] >= 32 && arg[i] <= 126)
+				putchar_buf(arg[i], buffer, buffer_len, bwritten);
+			else
+			{
+				putchar_buf('\\', buffer, buffer_len, bwritten);
+				putchar_buf('x', buffer, buffer_len, bwritten);
+				p_as_hex(buffer, buffer_len, bwritten, arg[i], 2, 1);
+			}
+		}
 		/*printf("|\n");*/
 	}
 

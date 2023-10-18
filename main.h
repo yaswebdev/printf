@@ -21,6 +21,7 @@ struct Tag
 	int is_signed;
 	int base;
 	int is_capital;
+	int is_print_np;
 };
 typedef struct Tag tag_t;
 
@@ -30,6 +31,10 @@ int writebuffer(char *buffer, int buffer_len);
 int _printf(const char *format, ...);
 void start_capture(void);
 char *end_capture(void);
+
+
+/* UTILS */
+void p_as_hex(char *buffer, int *buffer_len, int *bwritten, unsigned int d, int min_len, int is_capital);
 
 void reset_tag(tag_t *tag);
 void print_number(int n, int *b_written, int is_signed);

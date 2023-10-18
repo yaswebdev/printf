@@ -53,6 +53,28 @@ int *decimal_to_basex(unsigned int num, int base)
 	return (bin);
 }
 
+void p_as_hex(char *buffer, int *buffer_len, int *bwritten, unsigned int d, int min_len, int is_capital)
+{
+	int *x_arr = decimal_to_basex(d, 16);
+	int i;
+
+	for (i = min_len - x_arr[0]; i > 0; i--)
+	{
+		putchar_buf('0', buffer, buffer_len, bwritten);
+	}
+
+	for (i = 1 + x_arr[0] - 1; i >= 1; i--)
+	{
+		if (x_arr[i] >= 10)
+		{
+			putchar_buf((is_capital ? 'A' : 'a') + x_arr[i] - 10, buffer, buffer_len, bwritten);
+		}
+		else
+		{
+			putchar_buf('0' + x_arr[i], buffer, buffer_len, bwritten);
+		}
+	}
+}
 
 /**
  * print_number - prints an integer
