@@ -50,7 +50,6 @@ int process_s(tag_t *tag, va_list ap, char *buffer, int *buffer_len, int *bwritt
 {
 	char *arg = va_arg(ap, char *);
 	int i;
-	int *hex_arr;
 
 	if (arg == NULL)
 	{
