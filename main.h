@@ -39,13 +39,14 @@ void p_as_hex(char *buffer, int *buffer_len, int *bwritten, unsigned int d, int 
 void reset_tag(tag_t *tag);
 void print_number(int n, int *b_written, int is_signed);
 int *decimal_to_binary(unsigned int num);
-int *decimal_to_basex(unsigned int num, int base);
+unsigned long *decimal_to_basex(unsigned long num, int base);
 
 int process_percent(tag_t *tag, char *buffer, int *buffer_len, int *bwritten);
 int process_c(tag_t *tag, va_list ap, char *buffer, int *buffer_len, int *bwritten);
 int process_s(tag_t *tag, va_list ap, char *buffer, int *buffer_len, int *bwritten);
 int process_int(tag_t *tag, va_list ap, char *buffer, int *buffer_len, int *bwritten);
 int process_b(tag_t *tag, va_list ap, char *buffer, int *buffer_len, int *bwritten);
+int process_p(tag_t *tag, va_list ap, char *buffer, int *buffer_len, int *bwritten);
 
 #define RED_TEXT   "\x1B[31m"
 #define RESET_TEXT "\x1B[0m"

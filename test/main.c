@@ -1,6 +1,6 @@
 #include "../main.h"
 
-#define N_TESTS (31)
+#define N_TESTS (34)
 
 void dbgprintout(char *s)
 {
@@ -25,6 +25,7 @@ int main(void)
 	char *_output[N_TESTS];
 	int count[N_TESTS];
 	int _count[N_TESTS];
+	void *addr = (void *)0x7ffe637541f0;
 
 	int i = 0;
 
@@ -419,6 +420,47 @@ int main(void)
 	_count[i] = _printf("%b", 90809);
 	_output[i] = end_capture();
 	/**/
+
+	/******************************(%p)********************/
+	/**/
+	i++;
+	input[i] = "printf(\"%p\")";
+
+	start_capture();
+	count[i] = printf("%p");
+	output[i] = end_capture();
+
+	start_capture();
+	_count[i] = _printf("%p");
+	_output[i] = end_capture();
+	/**/
+
+	/**/
+	i++;
+	input[i] = "printf(\"%p\", addr)";
+
+	start_capture();
+	count[i] = printf("%p", addr);
+	output[i] = end_capture();
+
+	start_capture();
+	_count[i] = _printf("%p", addr);
+	_output[i] = end_capture();
+	/**/
+
+	/**/
+	i++;
+	input[i] = "printf(\"%p\", NULL)";
+
+	start_capture();
+	count[i] = printf("%p", NULL);
+	output[i] = end_capture();
+
+	start_capture();
+	_count[i] = _printf("%p", NULL);
+	_output[i] = end_capture();
+	/**/
+
 
 	/******************************(%o)********************/
 	/**/

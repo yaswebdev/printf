@@ -33,9 +33,9 @@ int *decimal_to_binary(unsigned int num)
  *
  * Return: binary number as array
  */
-int *decimal_to_basex(unsigned int num, int base)
+unsigned long *decimal_to_basex(unsigned long num, int base)
 {
-	static int bin[33];
+	static unsigned long bin[33];
 	int i = 1;
 
 	if (num == 0)
@@ -55,7 +55,7 @@ int *decimal_to_basex(unsigned int num, int base)
 
 void p_as_hex(char *buffer, int *buffer_len, int *bwritten, unsigned int d, int min_len, int is_capital)
 {
-	int *x_arr = decimal_to_basex(d, 16);
+	unsigned long *x_arr = decimal_to_basex(d, 16);
 	int i;
 
 	for (i = min_len - x_arr[0]; i > 0; i--)

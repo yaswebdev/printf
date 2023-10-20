@@ -96,7 +96,7 @@ int process_int(tag_t *tag, va_list ap, char *buffer, int *buffer_len, int *bwri
 	int i;
 	int arg = va_arg(ap, int);
 	unsigned int arg_unsigned;
-	int *num_arr;
+	unsigned long *num_arr;
 
 	if (tag->is_signed && arg < 0)
 	{
@@ -153,3 +153,46 @@ int process_b(tag_t *tag, va_list ap, char *buffer, int *buffer_len, int *bwritt
 }
 
 
+int process_p(tag_t *tag, va_list ap, char *buffer, int *buffer_len, int *bwritten)
+{
+	void *arg_p = va_arg(ap, void *);
+	unsigned long arg = (unsigned long)arg_p;
+	unsigned long *x_arr = decimal_to_basex(arg, 16);
+	int i;
+	int min_len = 0;
+
+	if (arg_p == NULL)
+	{
+		putchar_buf('(', buffer, buffer_len, bwritten);
+		putchar_buf('n', buffer, buffer_len, bwritten);
+		putchar_buf('i', buffer, buffer_len, bwritten);
+		putchar_buf('l', buffer, buffer_len, bwritten);
+		putchar_buf(')', buffer, buffer_len, bwritten);
+		reset_tag(tag);
+		return (0);
+	}
+
+	putchar_buf('0', buffer, buffer_len, bwritten);
+	putchar_buf('x', buffer, buffer_len, bwritten);
+
+	for (i = min_len - x_arr[0]; i > 0; i--)
+	{
+		putchar_buf('0', buffer, buffer_len, bwritten);
+	}
+
+	for (i = x_arr[0]; i >= 1; i--)
+	{
+		if (x_arr[i] >= 10)
+		{
+			putchar_buf((tag->is_capital ? 'A' : 'a') + (int)x_arr[i] - 10, buffer, buffer_len, bwritten);
+		}
+		else
+		{
+			putchar_buf('0' + (int)x_arr[i], buffer, buffer_len, bwritten);
+		}
+	}
+
+	reset_tag(tag);
+
+	return (0);
+}

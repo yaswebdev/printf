@@ -71,6 +71,9 @@ int process_tag_on(char c, tag_t *tag, va_list ap, char *buffer, int *buffer_len
 		case 'b':
 			return (process_b(tag, ap, buffer, buffer_len, bwritten));
 			break;
+		case 'p':
+			return (process_p(tag, ap, buffer, buffer_len, bwritten));
+			break;
 		case ' ':
 			reset_tag(tag);
 			return (-1);
